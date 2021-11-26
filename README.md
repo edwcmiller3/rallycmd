@@ -1,6 +1,6 @@
 # rallycmd
 
-Command line tool for Rally agile project tracker.
+Command line tool for Rally agile project tracker using the [pyral](https://github.com/RallyTools/RallyRestToolkitForPython) toolkit.
 
 ## Setup
 
