@@ -13,7 +13,6 @@ rally = Rally(server, user, password, workspace=workspace, project=project)
 query_criteria = 'FormattedID = "TC5535"'
 response = rally.get('TestCase', fetch=True, query=query_criteria)
 if response.errors:
-    sys.stdout.write("\n".join(errors))
     sys.exit(1)
 for testCase in response:  # there should only be one qualifying TestCase
     print(f"{testCase.Name}, {testCase.Type}, {testCase.LastVerdict}")
