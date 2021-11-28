@@ -20,7 +20,10 @@ rally = Rally(server, user, password, workspace=workspace, project=project)
 story = rally.get('HierarchicalRequirement', fetch=True, query='FormattedID = "US16436"', instance=True)
 print(story.Name)
 my_tasks = list(filter(lambda x: x.Owner.EmailAddress == user, story.Tasks))
-columns = ["ID", "Name", "State", "Actuals (h)", "To Do (h)"]
-print("{:<8} {:<15} {:<20} {:<10} {:<10}".format(*columns))
-
-[print(task.FormattedID, task.Name, task.State, task.Actuals, task.ToDo) for task in my_tasks]
+columns = ["ID", "State", "Name", "Actuals (h)", "To Do (h)"]
+# my_task_details = [my_tasks.FormattedID, my_tasks.State, my_tasks.Name, my_tasks.Actuals, my_tasks.ToDo]
+a = [[task.FormattedID, task.State, task.Name, task.Actuals, task.ToDo] for task in my_tasks]
+formatting = "{:<9} {:<10} {:<35} {:<12} {:<12}"
+print(formatting.format(*columns))
+print(formatting.format(*a))
+# [print(task.FormattedID, task.State, task.Name, task.Actuals, task.ToDo) for task in my_tasks]
