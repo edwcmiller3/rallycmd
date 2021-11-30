@@ -1,7 +1,6 @@
 # Proof of concept to check modules working and
 # project setup correctly
 
-from os import sep
 import sys
 from pyral import Rally, rallyWorkset
 
