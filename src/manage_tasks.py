@@ -1,20 +1,21 @@
-import argparse
+import argparse, helpers
 from pyral import Rally, rallyWorkset
 
 
-def get_tasks(rally, story_id):
+
+def get_my_tasks(rally, story_id):
     columns = ["ID", "State", "Name", "Actuals"]
     query_str = f'FormattedID = "{story_id}"'
     formatting = "{:<12} {:<13} {:<35} {:>12}"
-    story = rally.get('HierarchicalRequirement', fetch=True,
-                      query=query_str, instance=True)
+    
+    story_obj = helpers.get_rally_item(rally, 'HierarchicalRequirement', query_str)
 
     # my_tasks = list of pyral Task objects
     my_tasks = list(
-        filter(lambda x: x.Owner.EmailAddress == rally.user, story.Tasks))
+        filter(lambda x: x.Owner.EmailAddress == rally.user, story_obj.Tasks))
 
     # TODO: Make this better
-    print(story.Name)
+    # print(story.Name)
     print(formatting.format(*columns))
     [print(formatting.format(task.FormattedID, task.State,
            task.Name, task.Actuals)) for task in my_tasks]
@@ -33,7 +34,7 @@ def main(args):
     rally = Rally(server, user, password, workspace=workspace, project=project)
 
     if args.list:
-        get_tasks(rally, args.list)
+        get_my_tasks(rally, args.list)
 
 
 if __name__ == "__main__":
