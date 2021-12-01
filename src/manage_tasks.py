@@ -29,9 +29,12 @@ def main(args):
     # if args.config, connect with rally-v2.0.cfg - MUST BE PRESENT
     # if args.get_tasks, run get_tasks() - requires US12345
     # if args.update_tasks, run update_task() - requires TA12345
-    server, user, password, apikey, workspace, project = rallyWorkset(
-        args.config)
-    rally = Rally(server, user, password, workspace=workspace, project=project)
+    # Handle empty string after password in .cfg for some reason
+    server, user, password, workspace, project = filter(lambda x: x != '', rallyWorkset(args.config))
+    
+    print(rallyWorkset(args.config))
+    # print(apikey)
+    rally = Rally(server=server, user=user, password=password, workspace=workspace, project=project)
 
     if args.list:
         get_my_tasks(rally, args.list)
