@@ -1,14 +1,15 @@
-import argparse, helpers
+import argparse
+import helpers
 from pyral import Rally, rallyWorkset
 
 
-
-def get_my_tasks(rally, story_id):
+def get_my_tasks(rally, id):
     columns = ["ID", "State", "Name", "Actuals"]
-    query_str = f'FormattedID = "{story_id}"'
+    query_str = f'FormattedID = "{id}"'
     formatting = "{:<12} {:<13} {:<35} {:>12}"
-    
-    story_obj = helpers.get_rally_item(rally, 'HierarchicalRequirement', query_str)
+
+    story_obj = helpers.get_rally_item(
+        rally, id, query_str)
 
     # my_tasks = list of pyral Task objects
     my_tasks = list(
@@ -26,15 +27,12 @@ def update_task():
 
 
 def main(args):
-    # if args.config, connect with rally-v2.0.cfg - MUST BE PRESENT
     # if args.get_tasks, run get_tasks() - requires US12345
     # if args.update_tasks, run update_task() - requires TA12345
     # Handle empty string after password in .cfg for some reason
-    server, user, password, workspace, project = filter(lambda x: x != '', rallyWorkset(args.config))
-    
-    print(rallyWorkset(args.config))
-    # print(apikey)
-    rally = Rally(server=server, user=user, password=password, workspace=workspace, project=project)
+    server, user, password, workspace, project = filter(
+        lambda x: x != '', rallyWorkset(args.config))
+    rally = Rally(server, user, password, workspace=workspace, project=project)
 
     if args.list:
         get_my_tasks(rally, args.list)
